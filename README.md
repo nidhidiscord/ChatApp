@@ -15,13 +15,23 @@ The root `netlify.toml` builds the React client from `client` and publishes
 Connect the repository to Netlify and trigger a new deploy so it reads this
 configuration; deploying the repository source folder directly will show a 404.
 
-The Express server is not hosted by this Netlify static-site configuration.
-Deploy `server` to a Node.js host, then set `VITE_API_URL` in Netlify's site
-environment variables to that backend's public base URL (for example,
-`https://your-api.example.com`, with no `/api` suffix). Set the backend's
-`CLIENT_URL` to the Netlify site origin and configure the server's other
-environment variables on the backend host. Redeploy the Netlify site after
-changing `VITE_API_URL`, because Vite embeds it at build time.
+The Express/Socket.IO backend is deployed separately from the Netlify static
+site. A `render.yaml` Blueprint is included for deploying it to Render:
+
+1. Create a Render account and choose **New → Blueprint**, then connect this
+   repository and apply the `render.yaml` configuration.
+2. In the Render setup form, provide `MONGO_URI`, `CLIENT_URL` (the exact
+   Netlify site origin, such as `https://your-site.netlify.app`), and
+   `CLOUDINARY_URL`. Keep credentials private. Render generates `JWT_SECRET`.
+3. After Render deploys, copy the backend's public URL, such as
+   `https://chat-app-api.onrender.com`.
+4. In Netlify, set `VITE_API_URL` to that backend URL without an `/api` suffix,
+   then trigger a new frontend deploy. Vite embeds this value at build time.
+
+The backend allows browser requests from the single origin configured by
+`CLIENT_URL`. Render's free web services may sleep when idle, which can delay
+the first request and interrupt live Socket.IO connections until the client
+reconnects.
 
 ## Cloudinary media uploads
 
