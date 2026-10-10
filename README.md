@@ -20,12 +20,19 @@ site. A `render.yaml` Blueprint is included for deploying it to Render:
 
 1. Create a Render account and choose **New → Blueprint**, then connect this
    repository and apply the `render.yaml` configuration.
-2. In the Render setup form, provide `MONGO_URI`, `CLIENT_URL` (the exact
-   Netlify site origin, such as `https://your-site.netlify.app`), and
-   `CLOUDINARY_URL`. Keep credentials private. Render generates `JWT_SECRET`.
-3. After Render deploys, copy the backend's public URL, such as
+2. In MongoDB Atlas, create a database user and allow Render to connect under
+   **Network Access**. Render instances can have changing outbound IPs; for a
+   free Render service, Atlas may need the `0.0.0.0/0` access-list entry. Use a
+   strong database password and restrict access further if you have stable
+   outbound IPs or a private networking option.
+3. In the Render setup form, provide the Atlas `mongodb+srv://` connection
+   string as `MONGO_URI`, `CLIENT_URL` (the exact Netlify site origin, such as
+   `https://your-site.netlify.app`), and `CLOUDINARY_URL`. URL-encode any
+   special characters in the database username or password. Keep credentials
+   private. Render generates `JWT_SECRET`.
+4. After Render deploys, copy the backend's public URL, such as
    `https://chat-app-api.onrender.com`.
-4. In Netlify, set `VITE_API_URL` to that backend URL without an `/api` suffix,
+5. In Netlify, set `VITE_API_URL` to that backend URL without an `/api` suffix,
    then trigger a new frontend deploy. Vite embeds this value at build time.
 
 The backend allows browser requests from the single origin configured by

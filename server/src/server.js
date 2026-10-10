@@ -11,7 +11,7 @@ import uploadRoutes from './routes/upload.js';
 import { initSocket } from './socket.js';
 
 const app = express();
-app.use(cors({ origin: process.env.CLIENT_URL }));
+app.use(cors({ origin: * }));
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
