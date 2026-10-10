@@ -26,19 +26,18 @@ site. A `render.yaml` Blueprint is included for deploying it to Render:
    strong database password and restrict access further if you have stable
    outbound IPs or a private networking option.
 3. In the Render setup form, provide the Atlas `mongodb+srv://` connection
-   string as `MONGO_URI`, `CLIENT_URL` (the exact Netlify site origin, such as
-   `https://your-site.netlify.app`), and `CLOUDINARY_URL`. URL-encode any
-   special characters in the database username or password. Keep credentials
-   private. Render generates `JWT_SECRET`.
+   string as `MONGO_URI` and `CLOUDINARY_URL`. URL-encode any special
+   characters in the database username or password. Keep credentials private.
+   Render generates `JWT_SECRET`.
 4. After Render deploys, copy the backend's public URL, such as
    `https://chat-app-api.onrender.com`.
 5. In Netlify, set `VITE_API_URL` to that backend URL without an `/api` suffix,
    then trigger a new frontend deploy. Vite embeds this value at build time.
 
-The backend allows browser requests from the single origin configured by
-`CLIENT_URL`. Render's free web services may sleep when idle, which can delay
-the first request and interrupt live Socket.IO connections until the client
-reconnects.
+The backend accepts browser requests from any origin. Authenticated API and
+Socket.IO operations still require a valid app token. Render's free web
+services may sleep when idle, which can delay the first request and interrupt
+live Socket.IO connections until the client reconnects.
 
 ## Cloudinary media uploads
 
