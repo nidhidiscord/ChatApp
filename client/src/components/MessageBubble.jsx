@@ -10,6 +10,14 @@ export default function MessageBubble({ message, mine }) {
         }`}
       >
         {message.image && <img src={message.image} alt="" className="mb-1 max-h-60 rounded-xl" />}
+        {message.video && (
+          <video
+            src={message.video}
+            controls
+            preload="metadata"
+            className="mb-1 aspect-video w-full max-w-md rounded-xl"
+          />
+        )}
         {message.text && <p className="whitespace-pre-wrap break-words">{message.text}</p>}
         <span className={`mt-1 flex items-center justify-end gap-1 text-[10px] ${mine ? 'text-indigo-100/70' : 'text-slate-400'}`}>
           {time}

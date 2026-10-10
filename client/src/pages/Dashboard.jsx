@@ -52,7 +52,7 @@ export default function Dashboard() {
     socket.emit('mark_read', { from: u._id }); // mark their messages as read
   };
 
-  const handleSend = ({ text, image }) => socket.emit('send_message', { to: selectedUser._id, text, image });
+  const handleSend = ({ text, image, video }) => socket.emit('send_message', { to: selectedUser._id, text, image, video });
 
   const handleLogout = () => { dispatch(resetChat()); dispatch(logout()); };
 
