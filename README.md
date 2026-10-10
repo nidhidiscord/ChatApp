@@ -8,6 +8,21 @@ npm install && npm run dev
 cd client && cp .env.example .env
 npm install && npm run dev          # http://localhost:5173
 
+## Netlify deployment
+
+The root `netlify.toml` builds the React client from `client` and publishes
+`client/dist`, with a fallback for React Router routes such as `/login`.
+Connect the repository to Netlify and trigger a new deploy so it reads this
+configuration; deploying the repository source folder directly will show a 404.
+
+The Express server is not hosted by this Netlify static-site configuration.
+Deploy `server` to a Node.js host, then set `VITE_API_URL` in Netlify's site
+environment variables to that backend's public base URL (for example,
+`https://your-api.example.com`, with no `/api` suffix). Set the backend's
+`CLIENT_URL` to the Netlify site origin and configure the server's other
+environment variables on the backend host. Redeploy the Netlify site after
+changing `VITE_API_URL`, because Vite embeds it at build time.
+
 ## Cloudinary media uploads
 
 Chat photos and videos are uploaded from the server to Cloudinary. Configure
